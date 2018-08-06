@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+           http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd" 
+           default-lazy-init="false"><!-- bean new  -->
+	<!-- 1在这里配置数据源 -->
+	<context:property-placeholder location="classpath:db.properties" />
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${jdbc.driver}"></property>
+		<property name="url" value="${jdbc.url}"></property>
+		<property name="username" value="${jdbc.user}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+	</bean>
+	
+	<!-- 2配置事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<!-- 3mybatis 工厂模式 SqlSessionFactory insert update 包含数据源 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation" value="classpath:mybatisConfig.xml"></property>
+	</bean>
+	
+	<!-- dao层 -->
+ 	<bean id="goodsDao" class="org.mybatis.spring.mapper.MapperFactoryBean" scope="singleton">
+ 		<property name="mapperInterface" value="com.itshixun.dao.GoodsDao"></property>
+ 		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+ 	</bean>
+ 	
+ 	<!-- service层 -->
+ 	<bean id="goodsService" class="com.itshixun.service.impl.GoodsServiceImpl">
+ 		<property name="goodsDao" ref="goodsDao"></property>
+ 	</bean>
+ 	
+ 	<!-- action层 -->
+ 	<bean id="goodsManageAction" class="com.itshixun.action.GoodsManagerAction">
+ 		<property name="goodsService" ref="goodsService"></property>
+ 	</bean>
+	
+</beans>

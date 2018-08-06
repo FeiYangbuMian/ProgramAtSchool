@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itshixun.dao.GoodsDao">
+	<insert id="insertGoods" parameterType="Goods">
+	insert into t_goods(goodName,goodPhoto,goodInfo,goodPrice,tradeType,userId,classId)
+	 values(#{goodName},#{goodPhoto},#{goodInfo},#{goodPrice},#{tradeType},#{userId},#{classId})	
+	</insert>
+	
+	<select id="showGoodsAllClient" resultMap="resultGoods">
+	select * from t_goods where goodState=1	
+	</select> 
+	
+	<select id="showGoodsAll" resultMap="resultGoods">
+	select * from t_goods where goodState=1	
+	</select> 
+	
+	<select id="showGoodsStation" resultMap="resultGoods">
+	select * from t_goods where goodState=0	
+	</select>
+	
+	<select id="showGoodsDigital" resultMap="resultGoods">
+	select * from t_goods where classId=1 or classId=2 or classId=3 or classId=4
+	</select>
+	
+	<select id="showGoodsPad" resultMap="resultGoods">
+	select * from t_goods where classId=1 
+	</select>
+	
+	<select id="showGoodsFitting" resultMap="resultGoods">
+	select * from t_goods where classId=5 or classId=6 or classId=7 or classId=8
+	</select>
+	
+	<select id="showGoodsSkincare" resultMap="resultGoods">
+	select * from t_goods where classId=9 or classId=10 or classId=11 or classId=12
+	</select>
+	
+	<select id="showGoodsMakeup" resultMap="resultGoods">
+	select * from t_goods where classId=13 or classId=14 or classId=15 or classId=16
+	</select>
+	
+	<select id="showGoodsFour" resultMap="resultGoods">
+	select * from t_goods where classId=5 
+	</select>
+	
+	<select id="showGoodsCream" resultMap="resultGoods">
+	select * from t_goods where classId=9 
+	</select>
+	
+	<select id="showGoodsLip" resultMap="resultGoods">
+	select * from t_goods where classId=13 
+	</select>
+
+	<select id="selectGoodsDetail" parameterType="int" resultType="Goods">
+		select * from t_goods where goodId=#{goodId}
+	</select>
+	
+	<delete id="deleteGoodsById" parameterType="int">
+	delete from t_goods where goodId=#{goodId}
+	</delete>
+	
+	<select id="selectGoodsByIdClient" parameterType="int" resultType="Goods">
+	select * from t_goods where goodId=#{goodId} and goodState=1
+	</select>
+	
+	<select id="selectGoodsById" parameterType="int" resultType="Goods">
+	select * from t_goods where goodId=#{goodId} and goodState=1
+	</select>
+	<select id="findGoodsById" parameterType="int" resultType="Goods">
+	select * from t_goods where goodId=#{goodId}
+	</select>
+	
+	<select id="selectGoodsByUserId" parameterType="int" resultMap="resultGoods">
+	select goodId,goodName,goodPhoto,goodPrice,pubDate from t_goods where t_goods.userId = #{userId}
+	</select>
+
+	<update id="updateGoodState" parameterType="int">
+	update t_goods set goodState = 0 where goodId=#{goodId}
+	</update>
+	
+	<update id="updateGoodStation" parameterType="int">
+	update t_goods set goodState = 1 where goodId=#{goodId}
+	</update>
+	
+	<update id="updateGoodsById" parameterType="Goods">
+	update t_goods set goodName =#{goodName},goodPrice=#{goodPrice} where goodId=#{goodId}
+	</update>
+	
+	<update id="updateGoodsPhoto" parameterType="Goods">
+	update t_goods set goodPhoto =#{goodPhoto} where goodId=#{goodId}
+	</update>
+	
+	<resultMap type="Goods" id="resultGoods">
+		<id column="goodId" property="goodId"/>
+		<result column="goodName" property="goodName"/>
+		<result column="goodPhoto" property="goodPhoto"/>
+		<result column="goodInfo" property="goodInfo"/>
+		<result column="goodPrice" property="goodPrice"/>
+		<result column="tradeType" property="tradeType"/>
+		<result column="pubDate" property="pubDate"/>
+		<result column="goodPraise" property="goodPraise"/>
+		
+		<association property="user" javaType="User">
+			<id column="userId" property="userId"/>
+			<result column="userName" property="userName"/>
+			<result column="userPwd" property="userPwd"/>
+			<result column="userAddress" property="userAddress"/>
+			<result column="userEmail" property="userEmail"/>
+			<result column="userPhoto" property="userPhoto"/>
+			<result column="userQQ" property="userQQ"/>
+			<result column="userIntegral" property="userIntegral"/>
+			<result column="userPhone" property="userPhone"/>
+			<result column="userAccount" property="userAccount"/>
+		</association>
+		
+		<association property="goodsClass" javaType="GoodsClass">
+			<id column="classId" property="classId"/>
+			<result column="className" property="className"/>
+		</association>
+	</resultMap>
+</mapper>

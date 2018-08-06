@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<constant name="struts.i18n.encoding" value="UTF-8"></constant> 
+	
+    <package name="json" namespace="/json" extends="sys,json-default">
+    	<action name="JsonAction" class="JsonAction">
+    		<result name="fail"></result>
+    		<!-- 返回json类型数据 -->
+			<result type="json">
+			<!--result是action中设置的变量名，也是页面需要返回的数据，该变量必须有setter和getter方法  -->
+				<param name="root">result</param>
+			</result>		
+    	</action>
+    </package> 
+</struts>

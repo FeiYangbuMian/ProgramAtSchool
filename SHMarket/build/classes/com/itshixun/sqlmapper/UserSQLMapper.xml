@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itshixun.dao.UserDao">
+
+<select id="userLogin" parameterType="User" resultType="User">
+	select * from t_user where userName = #{userName} and userPwd = #{userPwd}
+</select>
+
+<insert id="insertUser" parameterType="User">
+	insert into t_user(userName,userPwd,userEmail,userPhoto) 
+	values(#{userName},#{userPwd},#{userEmail},"0")
+</insert>
+
+<select id="selectUser" resultMap="resultUser">
+	select * from t_user
+</select>
+
+<delete id="deleteUser" parameterType="int">
+	delete from t_user where userId = #{userId}
+</delete>
+
+<select id="selectByUserId" parameterType="int" resultType="User">
+	select * from t_user where userId = #{userId}
+</select>
+
+<select id="forgetPwd" parameterType="User" resultType="User">
+	select * from t_user where userName = #{userName} and userEmail = #{userEmail}
+</select>
+
+<update id="updateUser" parameterType="User">
+	update t_user set userAddress=#{userAddress}, userEmail =#{userEmail},
+	userQQ=#{userQQ}, userPhone=#{userPhone}
+	 where userId = #{userId}
+</update>
+
+<update id="updateUserPhoto" parameterType="User">
+	update t_user set userPhoto=#{userPhoto}  where userId = #{userId}
+</update>
+
+<update id="updatePwd" parameterType="User">
+	update t_user set userPwd=#{userPwd}  where userId = #{userId}
+</update>
+
+<resultMap id="resultUser" type="User">
+	<id column="userId" property="userId" />
+	<result column="userName" property="userName" />
+	<result column="userPwd" property="userPwd" />
+	<result  column="userAddress" property="userAddress" />
+	<result column="userEmail" property="userEmail" />
+	<result column="userPhoto" property="userPhoto" />
+	<result column="userQQ" property="userQQ" />
+	<result column="userIntegral" property="userIntegral" />
+	<result column="userPhone" property="userPhone" />
+	<result column="userAccount" property="userAccount" />
+</resultMap>
+
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.itshixun.dao.CommentsDao">
+  <insert id="insertComments" parameterType="Comments"> <!-- alt +/ -->
+   insert into t_comments(userId,content) values(#{userId},#{content})
+  </insert>
+  <select id="findComments" parameterType="int" resultMap="resultComments">
+  	select * from t_comments where t_comments.userId = #{userId}
+  </select>
+ <select id="selectComments"  resultMap="resultComments">
+  	select commentId,userName,content,t_comments.writeTime  from t_comments,t_user where t_comments.userId = t_user.userId order by t_comments.writeTime desc
+  </select>
+  
+<resultMap type="Comments" id="resultComments">
+		<id column="commmentId" property="commmentId" />
+		<result column="userId" property="userId" />
+		<result column="userName" property="userName" />
+		<result column="goodId" property="goodId" />
+		<result column="goodName" property="goodName" />
+		<result column="content" property="content" />		
+		<result column="writeTime" property="writeTime" />
+		
+ </resultMap>
+ 
+</mapper>

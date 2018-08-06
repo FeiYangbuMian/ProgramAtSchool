@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+           http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd" 
+           default-lazy-init="false"><!-- bean new  -->
+           <!--不bean初始化   =true 不初始化 new 不要和prototype 多例 -->
+	<!--1 配置数据库 -->
+	<context:property-placeholder location="classpath:db.properties" />
+	<bean id="dataSource"  class="org.apache.commons.dbcp.BasicDataSource">
+	<property name="driverClassName" value="${jdbc.driver}"/>
+			<property name="url" value="${jdbc.url}"/>
+			<property name="username" value="${jdbc.user}"/>
+			<property name="password" value="${jdbc.password}"/>
+	</bean>
+	
+	<!--2 配置事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<!-- 3 mybatis 工厂模式 SqlSessionFactory insert update 包含数据源 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation" value="classpath:mybatisConfig.xml"></property>
+	</bean>
+	
+	<!-- dao层 -->
+	<bean id="userDao" class="org.mybatis.spring.mapper.MapperFactoryBean" scope="singleton">
+		<property name="mapperInterface" value="com.itshixun.dao.UserDao"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	
+	<!-- service层 -->
+	<bean id="userService" class="com.itshixun.service.impl.UserServiceImpl">
+		<property name="userDao" ref="userDao"></property>
+	</bean>
+	
+	<!-- action层 -->
+	<bean id="userManagerAction" class="com.itshixun.action.UserManagerAction">
+		<property name="userService" ref="userService"></property>
+		<property name="goodsService" ref="goodsService"></property>
+	</bean>
+	<bean id="JsonAction" class="com.itshixun.action.JsonAction">
+	</bean>
+	
+	
+	<!-- dao层 -->
+    <bean id="ordersDao" class="org.mybatis.spring.mapper.MapperFactoryBean" scope="singleton">
+	<property name="mapperInterface" value="com.itshixun.dao.OrdersDao"></property>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	
+	
+	<!-- service层  -->
+	<bean id="ordersService" class="com.itshixun.service.impl.OrdersServiceImpl">
+	<property name="ordersDao" ref="ordersDao"></property>
+	</bean>
+	
+	
+	<!-- action层  -->
+	
+   <bean id="ordersManagerAction" class="com.itshixun.action.OrdersManagerAction">
+	<property name="ordersService" ref="ordersService"></property>
+	<property name="userService" ref="userService"></property>
+	<property name="goodsService" ref="goodsService"></property>
+	</bean>
+	
+	<bean id="goodsClassDao" class="org.mybatis.spring.mapper.MapperFactoryBean" scope="singleton">
+	<property name="mapperInterface" value="com.itshixun.dao.GoodsClassDao"></property>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	
+	<bean id="goodsClassService" class="com.itshixun.service.impl.GoodsClassServiceImpl">
+	<property name="goodsClassDao" ref="goodsClassDao"></property>
+	</bean>
+	
+	<bean id="goodsClassManagerAction" class="com.itshixun.action.GoodsClassManagerAction">
+	<property name="goodsClassService" ref="goodsClassService"></property>
+	</bean>
+	
+	<!-- dao层 -->
+ 	<bean id="goodsDao" class="org.mybatis.spring.mapper.MapperFactoryBean" scope="singleton">
+ 		<property name="mapperInterface" value="com.itshixun.dao.GoodsDao"></property>
+ 		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+ 	</bean>
+ 	
+ 	<!-- service层 -->
+ 	<bean id="goodsService" class="com.itshixun.service.impl.GoodsServiceImpl">
+ 		<property name="goodsDao" ref="goodsDao"></property>
+ 	</bean>
+ 	
+ 	<!-- action层 -->
+ 	<bean id="goodsManageAction" class="com.itshixun.action.GoodsManagerAction">
+ 		<property name="goodsService" ref="goodsService"></property>
+ 		<property name="userService" ref="userService"></property>
+ 	</bean>
+	
+	<!-- dao层 -->
+ 	<bean id="CommentsDao" class="org.mybatis.spring.mapper.MapperFactoryBean" scope="singleton">
+ 		<property name="mapperInterface" value="com.itshixun.dao.CommentsDao"></property>
+ 		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+ 	</bean>
+ 	
+ 	<!-- service层 -->
+ 	<bean id="CommentsService" class="com.itshixun.service.impl.CommentsServiceImpl">
+ 		<property name="CommentsDao" ref="CommentsDao"></property>
+ 	</bean>
+ 	
+ 	<!-- action层 -->
+ 	<bean id="commentsManagerAction" class="com.itshixun.action.CommentsManagerAction">
+ 		<property name="CommentsService" ref="CommentsService"></property>
+ 		<property name="userService" ref="userService"></property> 
+ 	</bean>
+ 	
+ 	<bean id="replyDao" class="org.mybatis.spring.mapper.MapperFactoryBean" scope="singleton">
+	<property name="mapperInterface" value="com.itshixun.dao.ReplyDao"></property>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	
+	<bean id="replyService" class="com.itshixun.service.impl.ReplyServiceImpl">
+	<property name="replyDao" ref="replyDao"></property>
+	</bean>
+	
+	<bean id="replyManagerAction" class="com.itshixun.action.ReplyManagerAction">
+	<property name="replyService" ref="replyService"></property>
+	<property name="CommentsService" ref="CommentsService"></property>
+	</bean>
+</beans>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+  <package name="orders" namespace="/orders" extends="sys">
+    <action name="clientregisterOrdersAction" class="ordersManagerAction">
+      <result name="clientorder">/client/order.jsp</result>
+      <result name="clientdetailedInfo">/client/detailedInfo.jsp</result>
+      <result name="clientpersonalInfo">/client/personalInfo.jsp</result>
+      <result name="clientmyOrders">/client/myOrders.jsp</result>
+      <result name="pay">/client/alipay.trade.page.pay.jsp</result>
+    </action>
+    
+    <action name="registerOrdersAction" class="ordersManagerAction"> 
+    <result name="error">/server/registerOrders.jsp</result>
+      <result name="success">/index.jsp</result>
+      <result name="show">/server/showOrdersList.jsp</result>
+      <result name="obligationOrdersStation">/server/obligationOrdersStation.jsp</result>
+      <result name="deliveredOrdersStation">/server/obligationOrdersStation.jsp</result>
+      <result name="receivedOrdersStation">/server/obligationOrdersStation.jsp</result>
+      <result name="unvaluedOrdersStation">/server/obligationOrdersStation.jsp</result>
+      <result name="evaluatedOrdersStation">/server/obligationOrdersStation.jsp</result>
+      </action>
+  </package>
+</struts>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+<constant name="struts.multipart.maxSize" value="12097152"></constant>
+<constant name="struts.multipart.saveDir" value="d:\tmp"></constant>
+<constant name="struts.multipart.maxSize" value="100000000000000"/>
+<package name="goods" namespace="/goods" extends="sys">
+	<action name="clientaddAction" class="goodsManageAction">
+	    <param name="savePath">/client/GoodsPhoto</param>
+		<result name="success">/index.jsp</result>
+		<result name="clienterror">/client/insertGoods.jsp</result>
+		<result name="clientshowGoodsAllClient">/client/showGoodsList.jsp</result>
+		<result name="clientshowGoodsStation">/client/goodsStation.jsp</result>
+		<result name="clientshowGoodsDigital">/client/showGoodsList.jsp</result>
+		<result name="clientshowGoodsPad">/client/showGoodsList.jsp</result>
+		<result name="clientshowGoodsFitting">/client/showGoodsList.jsp</result>
+		<result name="clientshowGoodsSkincare">/client/showGoodsList.jsp</result>
+		<result name="clientshowGoodsMakeup">/client/showGoodsList.jsp</result>
+		<result name="clientshowGoodsFour">/client/showGoodsList.jsp</result>
+		<result name="clientshowGoodsLip">/client/showGoodsList.jsp</result>
+		<result name="clientshowGoodsCream">/client/showGoodsList.jsp</result>
+		<result name="clientupdateGoods">/client/updateGoods.jsp</result>
+		<result name="clientinput">/client/insertGoods.jsp</result>
+		<result name="clientdetailedInfo">/client/detailedInfo.jsp</result>
+		<result name="clientpersonalInfo">/client/personalInfo.jsp</result>
+		<!-- 设置缓存空间 设置上传路径 拦截器 过滤类型 文件 修改struts 默认拦截器 -->
+			<interceptor-ref name="fileUpload">
+				<!-- <param name="allowedTypes"></param> -->
+				<!-- 使用Struts文件上次功能
+				我们可以使用”文件类型“和”文件后缀名“两者中的一个来控制上传文件的类型/后缀名。
+				但是，allowedTypes的优先级(源码f分支排在前面)别高于allowedExtensions
+				如果配置了allowedTypes则allowedExtensions将不再起效。 -->
+				<param name="allowedTypes">image/jpeg,image/gif</param>
+				<param name="maximumSize">100000000000000</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+	</action>
+	<action name="addAction" class="goodsManageAction">
+		<param name="savePath">/server</param>
+		<result name="error">/server/insertGoods.jsp</result>
+		<result name="showGoodsAll">/server/showGoodsList.jsp</result>
+		<result name="showGoodsStation">/server/goodsStation.jsp</result>
+		<result name="updateGoods">/server/updateGoods.jsp</result>
+		<result name="input">/server/insertGoods.jsp</result>		
+   </action>
+	
+</package>
+
+</struts>

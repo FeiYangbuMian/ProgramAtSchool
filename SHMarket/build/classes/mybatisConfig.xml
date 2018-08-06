@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<!-- 起别名  用于parameterType -->
+<!-- type是类的全路径，alias是类的别名 -->
+<typeAliases>
+	<typeAlias type="com.itshixun.entity.User" alias="User"/>
+	<typeAlias type="com.itshixun.entity.GoodsClass" alias="GoodsClass"/>
+    <typeAlias type="com.itshixun.entity.Goods" alias="Goods"/>
+    <typeAlias type="com.itshixun.entity.Orders" alias="Orders"/>
+    <typeAlias type="com.itshixun.entity.Comments" alias="Comments"/>
+    <typeAlias type="com.itshixun.entity.Reply" alias="Reply"/>
+</typeAliases>
+
+<!-- 注册sql mapper -->
+<mappers>
+	<!-- 告知映射文件方式：一个一个的配置 -->
+	<mapper resource="com/itshixun/sqlmapper/UserSQLMapper.xml"/>
+    <mapper resource="com/itshixun/sqlmapper/GoodsClassSQLMapper.xml"/><!-- alt+/ -->
+    <mapper resource="com/itshixun/sqlmapper/GoodsSQLMapper.xml"/>
+    <mapper resource="com/itshixun/sqlmapper/OrdersSQLMapper.xml"/>
+    <mapper resource="com/itshixun/sqlmapper/CommentsSQLMapper.xml"/>
+    <mapper resource="com/itshixun/sqlmapper/ReplySQLMapper.xml"/>
+</mappers>
+</configuration>

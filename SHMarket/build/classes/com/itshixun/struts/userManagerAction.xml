@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<constant name="struts.multipart.maxSize" value="12097152"/>
+	<constant name="struts.multipart.saveDir" value="d:\tmp"/>
+	<constant name="struts.multipart.maxSize" value="100000000000000"/>
+    <package name="user" namespace="/user" extends="sys">
+    	<action name="clientuserManagerAction" class="userManagerAction">
+    		<param name="savePath">/client/UserPhoto</param>
+    		<result name="clientinput">/client/success.jsp</result>
+    		<result name="clientregister">/client/addUser.jsp</result>
+    		<result name="clientlogin">/client/login.jsp</result>
+    		<result name="clientshow">/client/showUserList.jsp</result>
+    		<result name="clientupdate">/client/updateUser.jsp</result>
+    		<result name="clientshowPhoto">/index.jsp</result>
+    		<result name="home">/home.jsp</result>
+    		<result name="clientforgetPwd">/client/forgetPwd.jsp</result>
+    		<result name="clientupdatePwd">/client/updatePwd.jsp</result>
+    		<result name="clientpersonalInfo">/client/personalInfo.jsp</result>
+    		<!-- 设置缓存空间 设置上传路径 拦截器 过滤类型 文件 修改struts 默认拦截器 -->
+			<interceptor-ref name="fileUpload">
+				<!-- <param name="allowedTypes"></param> -->
+				<!-- 使用Struts文件上次功能
+				我们可以使用”文件类型“和”文件后缀名“两者中的一个来控制上传文件的类型/后缀名。
+				但是，allowedTypes的优先级(源码f分支排在前面)别高于allowedExtensions
+				如果配置了allowedTypes则allowedExtensions将不再起效。 -->
+				<param name="allowedTypes">image/jpeg,image/gif</param>
+				<param name="maximumSize">100000000000000</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+    	</action>
+    	<action name="userManagerAction" class="userManagerAction">
+    		<result name="success">/server/success.jsp</result>
+    		<result name="register">/client/addUser.jsp</result>
+    		<result name="login">/client/login.jsp</result>
+    		<result name="show">/server/showUserList.jsp</result>
+    		<result name="update">/server/updateUser.jsp</result>
+    	</action>
+    </package> 
+</struts>

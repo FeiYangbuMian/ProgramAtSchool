@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.itshixun.dao.ReplyDao">
+  <insert id="insertReply" parameterType="Reply"> <!-- alt +/ -->
+   insert into t_reply(commentId,replyContent) values (#{commentId},#{replyContent})
+  </insert>
+  <select id="selectReply"  parameterType="int" resultMap="resultReply">
+  	select replyId,replyContent,t_reply.writeTime from t_reply where t_reply.commentId = #{commentId} order by t_reply.writeTime desc
+  </select>
+  
+  
+  
+  
+  
+<resultMap type="Reply" id="resultReply">
+		<id column="replyId" property="replyId" />
+		<result column="commmentId" property="commmentId" />
+		<result column="replyContent" property="replyContent" />		
+		<result column="writeTime" property="writeTime" />
+		
+ </resultMap>
+ 
+</mapper>

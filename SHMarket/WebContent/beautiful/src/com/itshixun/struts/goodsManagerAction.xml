@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+<package name="goods" namespace="/goods" extends="sys">
+	<action name="addAction" class="goodsManageAction">
+		<result name="success">/client/success.jsp</result>
+		<result name="error">/client/addGoods.jsp</result>
+		<result name="showGoodsAll">/client/showGoodsAll.jsp</result>
+		<result name="updateGoods">/client/updateGoods.jsp</result>
+	</action>
+</package>
+
+</struts>

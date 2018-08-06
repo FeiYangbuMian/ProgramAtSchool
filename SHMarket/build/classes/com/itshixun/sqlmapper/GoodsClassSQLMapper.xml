@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itshixun.dao.GoodsClassDao">
+<insert id="insertGoodsClass" parameterType="GoodsClass">
+	insert into t_goodsclass(className)values(#{className})
+</insert>
+
+<select id="selectGoodsClass"  resultMap="resultGoodsClass">
+  	select * from t_goodsclass
+  </select>
+  
+  <delete id="deleteGoodsClass" parameterType="int">
+    delete from t_goodsclass where classId = #{classId}
+  </delete>
+  
+<resultMap type="GoodsClass" id="resultGoodsClass"> 
+<id column="classId" property="classId"/>
+<result column="className" property="className"/> 
+</resultMap>
+</mapper>

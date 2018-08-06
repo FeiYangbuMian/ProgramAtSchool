@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.itshixun.dao.OrdersDao">
+  <insert id="insertOrders" parameterType="Orders"> <!-- alt +/ -->
+   insert into t_orders(userId,goodId,price,orderStatu) values(#{userId},#{goodId},#{price},#{orderStatu})
+  </insert>
+  
+  <select id="selectOrders"  resultMap="resultOrders">
+  	select orderId,userName,goodName,orderCount,price,orderStatu,t_orders.pubDate  from t_orders,t_user,t_goods where t_orders.userId = t_user.userId and  t_orders.goodId = t_goods.goodId
+  </select>
+  
+  <select id="selectOneOrdersClient"  resultType="Orders">
+  	select * from t_orders where orderChange=0
+  </select>
+  
+  
+  <select id="selectOrdersByUserId"  resultMap="resultOrders">
+  	select orderId,t_orders.goodId,goodName,price,orderStatu,t_orders.pubDate from t_orders,t_goods where t_orders.userId = #{userId} and  t_orders.goodId = t_goods.goodId
+  </select>
+  
+  <delete id="deleteOrders" parameterType="int">
+    delete from t_orders where orderId = #{orderId}
+  </delete>
+  
+  <select id="selectByOrderId" parameterType="int" resultType="Orders">
+	select orderId,userName,goodName,orderCount,price,orderStatu,t_orders.pubDate,orderChange from t_orders,t_user,t_goods where t_orders.userId = t_user.userId and  t_orders.goodId = t_goods.goodId 
+    and orderId = #{orderId}
+</select>
+
+<update id="updateOrders" parameterType="int">
+	update t_orders set orderStatu="已发货" where orderId = #{orderId}
+</update>
+
+<update id="updateOrdersOrderChange" parameterType="int">
+	update t_orders set orderChange = 1 where orderId = #{orderId} 
+</update>
+
+<update id="updateOrdersOrderStatu" parameterType="int">
+	update t_orders set orderStatu = "已付款" where orderId = #{orderId} 
+</update>
+
+<!-- 已付款订单 -->
+  <select id="obligationOrdersStation" resultMap="resultOrders">
+    select orderId,userName,goodName,orderCount,price,orderStatu,t_orders.pubDate,orderChange  from t_orders,t_user,t_goods where t_orders.userId = t_user.userId and  t_orders.goodId = t_goods.goodId and orderStatu="已付款" order by pubDate desc 
+  </select>
+  <!-- 已发货订单 -->
+  <select id="deliveredOrdersStation" resultMap="resultOrders">
+    select orderId,userName,goodName,orderCount,price,orderStatu,t_orders.pubDate,orderChange  from t_orders,t_user,t_goods where t_orders.userId = t_user.userId and  t_orders.goodId = t_goods.goodId and orderStatu="已发货" order by pubDate desc 
+  </select>
+ 
+  <!-- 已收货订单 -->
+  <select id="receivedOrdersStation" resultMap="resultOrders">
+    select orderId,userName,goodName,orderCount,price,orderStatu,t_orders.pubDate,orderChange  from t_orders,t_user,t_goods where t_orders.userId = t_user.userId and  t_orders.goodId = t_goods.goodId and orderStatu="已收货" order by pubDate desc
+  </select>
+  <!-- 待评价订单 -->
+   <select id="unvaluedOrdersStation" resultMap="resultOrders">
+    select orderId,userName,goodName,orderCount,price,orderStatu,t_orders.pubDate,orderChange  from t_orders,t_user,t_goods where t_orders.userId = t_user.userId and  t_orders.goodId = t_goods.goodId and orderStatu="待评价" order by pubDate desc
+  </select>
+  <!-- 已评价订单 -->
+  <select id="evaluatedOrdersStation" resultMap="resultOrders">
+    select orderId,userName,goodName,orderCount,price,orderStatu,t_orders.pubDate,orderChange from t_orders,t_user,t_goods where t_orders.userId = t_user.userId and  t_orders.goodId = t_goods.goodId and orderStatu="已评价" order by pubDate desc
+  </select>
+  <update id="updateCountMinus" parameterType="int">
+	update t_orders set orderCount = orderCount-1 where orderId = #{orderId}
+</update>
+
+<update id="updateCountPlus" parameterType="int">
+	update t_orders set orderCount = orderCount+1 where orderId = #{orderId}
+</update>
+  
+
+  
+<resultMap type="Orders" id="resultOrders">
+        <id column="orderId" property="orderId" />
+        <result column="userId" property="userId" />
+		<result column="userName" property="userName" />
+		<result column="goodId" property="goodId" />
+		<result column="goodName" property="goodName" />
+		<result column="orderCount" property="orderCount" />
+		<result column="price" property="price" />
+		<result column="orderStatu" property="orderStatu" />
+		<result column="pubDate" property="pubDate" />
+		
+ </resultMap>
+ 
+</mapper>
